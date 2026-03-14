@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -6,16 +8,29 @@ from .nlp import extract_keywords
 from .schemas import AnalyzeRequest, AnalyzeResponse
 
 
+LOCAL_DEVELOPMENT_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173",
+]
+
+
 app = FastAPI(title="3D Word Cloud News Analyzer API")
+
+
+def get_allowed_origins() -> list[str]:
+    configured_origins = os.getenv("FRONTEND_ORIGINS", "")
+    extra_origins = [
+        origin.strip() for origin in configured_origins.split(",") if origin.strip()
+    ]
+    return LOCAL_DEVELOPMENT_ORIGINS + extra_origins
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=get_allowed_origins(),
+    allow_origin_regex=r"https://.*\.netlify\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

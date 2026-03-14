@@ -1,6 +1,13 @@
 import type { AnalysisResponse } from "../types/analysis";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const env = (import.meta as ImportMeta & {
+  env?: { VITE_API_BASE_URL?: string };
+}).env;
+
+const API_BASE_URL = (env?.VITE_API_BASE_URL?.trim() || "http://127.0.0.1:8000").replace(
+  /\/$/,
+  ""
+);
 
 export async function analyzeArticle(url: string): Promise<AnalysisResponse> {
   const response = await fetch(`${API_BASE_URL}/analyze`, {
