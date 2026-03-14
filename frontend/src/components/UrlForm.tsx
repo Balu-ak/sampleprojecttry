@@ -23,12 +23,11 @@ export default function UrlForm({
   return (
     <section className="control-panel">
       <div className="panel-heading">
-        <p className="eyebrow">Phase 4A</p>
+        <p className="eyebrow">3D Word Cloud</p>
         <h1>Turn any article into a topic field.</h1>
         <p className="panel-copy">
-          Submit a news article URL, inspect the extracted metadata, and review
-          the extracted phrases and weighted terms before the 3D scene arrives
-          in Phase 4B.
+          Submit a news article URL to extract key phrases, review article
+          insights, and explore the results in an interactive 3D semantic map.
         </p>
       </div>
 
